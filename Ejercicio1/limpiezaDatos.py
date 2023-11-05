@@ -17,7 +17,7 @@ class LimpiezaDatos(LecturaDatos):
     #Copia el dataframe para no modificar el original
     def copia(self):
         self.df = self.df.copy()
-        self.df.to_csv('Datasets/copy_activaciones_samur_2023.csv', sep=';', index=False)
+        self.df.to_csv('Ejercicio1/Datasets/copy_activaciones_samur_2023.csv', sep=';', index=False)
 
     def limpieza_nulos(self):
         for column in self.df.columns:
@@ -48,11 +48,11 @@ class LimpiezaDatos(LecturaDatos):
     
     #Guarda el dataframe en un csv
     def guardar(self):
-        self.df.to_csv('Datasets/filtrado_activaciones_samur_2023.csv', sep=';', index=False)
+        self.df.to_csv('Ejercicio1/Datasets/filtrado_activaciones_samur_2023.csv', sep=';', index=False)
     
 
 
-dataCleaning = LimpiezaDatos('Datasets/activaciones_samur_2023.csv')
+dataCleaning = LimpiezaDatos('Ejercicio1/Datasets/activaciones_samur_2023.csv')
 dataCleaning.copia()
 dataCleaning.limpieza_nulos()
 dataCleaning.limpieza_duplicados()
