@@ -1,5 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
+import pandas as pd
+
 
 
 class AbstractFactory(ABC):
@@ -92,7 +94,10 @@ class AbstractStatistics(ABC):
 
 class Mean(AbstractStatistics):
     def calculate_statistic(self) -> str:
-        return "Devolveria la media"
+        #Calcula la diferencia entre la hora de solicitud y la hora de intervencion, ya que es lo unico que tiene sentido para una media
+        diferencia = df['Hora Intervención'] - df['Hora Solicitud']
+        #Devuelve la media en minutos, redondeada a las centesimas
+        return round(diferencia.mean().seconds/60, 2)
 
     def graphic(self, collaborator: AbstractGraphics) -> str:
         result = collaborator.create_graphic()
@@ -101,7 +106,7 @@ class Mean(AbstractStatistics):
 
 class Mode(AbstractStatistics):
     def calculate_statistic(self) -> str:
-        return "Calcularia la moda"
+        return df.mode()
 
     def graphic(self, collaborator: AbstractGraphics) -> str:
         result = collaborator.create_graphic()
@@ -109,7 +114,7 @@ class Mode(AbstractStatistics):
     
 class Median(AbstractStatistics):
     def calculate_statistic(self) -> str:
-        return "Calcularia la mediana"
+        return df.median()
 
     def graphic(self, collaborator: AbstractGraphics) -> str:
         result = collaborator.create_graphic()
@@ -120,16 +125,19 @@ def client_code(factory: AbstractFactory) -> None:
     graphic = factory.create_graphic()
     statistic = factory.calculate_statistic()
 
-    print(f"{statistic.graphic(graphic)}")
     print(f"{statistic.calculate_statistic()}")
+    print(f"{statistic.graphic(graphic)}")
     print(f"{graphic.create_graphic()}")
 
 if __name__ == "__main__":
-    """
-    The client code can work with any concrete factory class.
-    """
+ 
+    df = pd.read_csv('Ejercicio1/Datasets/filtrado_activaciones_samur_2023.csv', sep=';', encoding='UTF-8')
+    df['Hora Intervención'] = pd.to_datetime(df['Hora Intervención'], format='%H:%M:%S')
+    df['Hora Solicitud'] = pd.to_datetime(df['Hora Solicitud'], format='%H:%M:%S')
+
+
     print("Client: Testing client code with the first factory type:")
-    client_code(ConcreteFactory6())
+    client_code(ConcreteFactory1())
     print("\n")
     print("Client: Testing the same client code with the second factory type:")
     client_code(ConcreteFactory5())    
