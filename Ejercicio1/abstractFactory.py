@@ -94,8 +94,6 @@ class AbstractStatistics(ABC):
 
 class Mean(AbstractStatistics):
     def calculate_statistic(self) -> str:
-        #Calcula la diferencia entre la hora de solicitud y la hora de intervencion, ya que es lo unico que tiene sentido para una media
-        diferencia = df['Hora Intervención'] - df['Hora Solicitud']
         #Devuelve la media en minutos, redondeada a las centesimas
         return round(diferencia.mean().seconds/60, 2)
 
@@ -106,7 +104,8 @@ class Mean(AbstractStatistics):
 
 class Mode(AbstractStatistics):
     def calculate_statistic(self) -> str:
-        return df.mode()
+        #Devuelve la moda en minutos, redondeada a las centesimas
+        return round(diferencia.mode()[0].seconds/60, 2)
 
     def graphic(self, collaborator: AbstractGraphics) -> str:
         result = collaborator.create_graphic()
@@ -114,7 +113,8 @@ class Mode(AbstractStatistics):
     
 class Median(AbstractStatistics):
     def calculate_statistic(self) -> str:
-        return df.median()
+        #Devuelve la mediana en minutos, redondeada a las centesimas   
+        return round(diferencia.median().seconds/60, 2)
 
     def graphic(self, collaborator: AbstractGraphics) -> str:
         result = collaborator.create_graphic()
@@ -134,10 +134,11 @@ if __name__ == "__main__":
     df = pd.read_csv('Ejercicio1/Datasets/filtrado_activaciones_samur_2023.csv', sep=';', encoding='UTF-8')
     df['Hora Intervención'] = pd.to_datetime(df['Hora Intervención'], format='%H:%M:%S')
     df['Hora Solicitud'] = pd.to_datetime(df['Hora Solicitud'], format='%H:%M:%S')
+    #Calcula la diferencia entre la hora de solicitud y la hora de intervencion, ya que es lo unico que tiene sentido para una media
+    diferencia = df['Hora Intervención'] - df['Hora Solicitud']
 
-
-    print("Client: Testing client code with the first factory type:")
     client_code(ConcreteFactory1())
     print("\n")
-    print("Client: Testing the same client code with the second factory type:")
-    client_code(ConcreteFactory5())    
+    client_code(ConcreteFactory2())        
+    print("\n")
+    client_code(ConcreteFactory3())    
