@@ -29,10 +29,11 @@ class ConcreteFactory1(AbstractFactory):
     """
 
     def create_graphic(self) -> AbstractGraphics:
-        return Mean()
+        return GraficoBarras()
 
     def calculate_statistic(self) -> AbstractStatistics:
-        return GraficoBarras()
+        return Mean()
+
 
 
 class ConcreteFactory2(AbstractFactory):
@@ -44,10 +45,10 @@ class ConcreteFactory2(AbstractFactory):
     """
 
     def create_graphic(self) -> AbstractGraphics:
-        return Mode()
+        return GraficoBarras()
 
     def calculate_statistic(self) -> AbstractStatistics:
-        return GraficoBarras()
+        return Mode()
     
 class ConcreteFactory3(AbstractFactory):
     """
@@ -58,10 +59,10 @@ class ConcreteFactory3(AbstractFactory):
     """
 
     def create_graphic(self) -> AbstractGraphics:
-        return Median()
+        return GraficoBarras()
 
     def calculate_statistic(self) -> AbstractStatistics:
-        return GraficoBarras()
+        return Median()
     
 class ConcreteFactory4(AbstractFactory):
     """
@@ -72,10 +73,11 @@ class ConcreteFactory4(AbstractFactory):
     """
 
     def create_graphic(self) -> AbstractGraphics:
-        return Mean()
+        return GraficoHistograma()
+
 
     def calculate_statistic(self) -> AbstractStatistics:
-        return GraficoHistograma()
+        return Mean()
     
 class ConcreteFactory5(AbstractFactory):
     """
@@ -86,10 +88,11 @@ class ConcreteFactory5(AbstractFactory):
     """
 
     def create_graphic(self) -> AbstractGraphics:
-        return Mode()
+        return GraficoHistograma()
+
 
     def calculate_statistic(self) -> AbstractStatistics:
-        return GraficoHistograma()
+        return Mode()
     
 class ConcreteFactory6(AbstractFactory):
     """
@@ -100,10 +103,11 @@ class ConcreteFactory6(AbstractFactory):
     """
 
     def create_graphic(self) -> AbstractGraphics:
-        return Median()
+        return GraficoHistograma()
+
 
     def calculate_statistic(self) -> AbstractStatistics:
-        return GraficoHistograma()
+        return Median()
 
 
 class AbstractGraphics(ABC):
@@ -146,7 +150,7 @@ class AbstractStatistics(ABC):
         pass
 
     @abstractmethod
-    def graphic_statistic(self, collaborator: AbstractGraphics) -> None:
+    def graphic(self, collaborator: AbstractGraphics) -> None:
         """
         ...but it also can collaborate with the ProductA.
 
@@ -209,21 +213,29 @@ def client_code(factory: AbstractFactory) -> None:
     types: AbstractFactory and AbstractProduct. This lets you pass any factory
     or product subclass to the client code without breaking it.
     """
-    product_a = factory.create_product_a()
-    product_b = factory.create_product_b()
+    graphic = factory.create_graphic()
+    statistic = factory.calculate_statistic()
 
-    print(f"{product_b.useful_function_b()}")
-    print(f"{product_b.another_useful_function_b(product_a)}", end="")
-
+    print(f"{statistic.graphic(graphic)}")
+    print(f"{statistic.calculate_statistic()}")
+    print(f"{graphic.create_graphic()}")
 
 if __name__ == "__main__":
     """
     The client code can work with any concrete factory class.
     """
     print("Client: Testing client code with the first factory type:")
-    client_code(ConcreteFactory1())
-
+    client_code(ConcreteFactory6())
     print("\n")
-
+    print("Client: Testing the same client code with the second factory type:")
+    client_code(ConcreteFactory5())    
+    print("Client: Testing the same client code with the second factory type:")
+    client_code(ConcreteFactory4())    
+    print("Client: Testing the same client code with the second factory type:")
+    client_code(ConcreteFactory3())    
+    
     print("Client: Testing the same client code with the second factory type:")
     client_code(ConcreteFactory2())
+        
+    print("Client: Testing the same client code with the second factory type:")
+    client_code(ConcreteFactory1())
