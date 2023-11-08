@@ -1,5 +1,6 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout,QComboBox, QPushButton, QMessageBox
+import csv
+from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QHBoxLayout,QComboBox, QPushButton, QMessageBox, QTextEdit
 
 class PizzeriaApp(QWidget):
     def __init__(self):
@@ -31,6 +32,11 @@ class PizzeriaApp(QWidget):
         orden_button.clicked.connect(self.mostrar_orden)
         layout.addWidget(orden_button)
 
+        # Área de texto para mostrar la orden
+        self.text_area = QTextEdit(self)
+        self.text_area.setReadOnly(True)
+        layout.addWidget(self.text_area)
+
         self.setLayout(layout)
         self.setWindowTitle("Pizzería App")
         self.show()
@@ -44,7 +50,15 @@ class PizzeriaApp(QWidget):
             QMessageBox.warning(self, "Advertencia", "Selecciona al menos un ingrediente.")
         else:
             orden = ", ".join(self.ingredientes_seleccionados)
-            QMessageBox.information(self, "Tu Orden", f"Tu orden es: {orden}")
+            self.text_area.append(f"Tu orden es: {orden}")
+
+            #Guardar en un archivo CSV
+            self.guardar_en_csv(orden)
+
+    def guardar_en_csv(self, orden):
+        with open('Ejercicio2/GUI/orden.csv', 'a', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([orden])
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
