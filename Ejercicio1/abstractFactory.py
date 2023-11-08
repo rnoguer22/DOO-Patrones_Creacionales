@@ -84,11 +84,12 @@ class GraficoBarras(AbstractGraphics):
 class GraficoHistograma(AbstractGraphics):
     def create_graphic(self) -> str:
         # Crear el histograma
-        plt.hist([df['Hora Intervención'], df['Hora Solicitud']], bins=25)
+        plt.hist([df['Hora Intervención'], df['Hora Solicitud']], bins=25, alpha=0.7)
         # Configuración adicional
         plt.xlabel('Diferencia de Tiempo (segundos)')
         plt.ylabel('Frecuencia')
         plt.title('Histograma de Diferencias de Tiempo')
+        plt.show()
         return 'histograma'
 
 class AbstractStatistics(ABC):
@@ -147,6 +148,10 @@ if __name__ == "__main__":
     df['Hora Solicitud'] = pd.to_datetime(df['Hora Solicitud'], format='%H:%M:%S')
     #Calcula la diferencia entre la hora de solicitud y la hora de intervencion, ya que es lo unico que tiene sentido para una media
     diferencia = df['Hora Intervención'] - df['Hora Solicitud']
+
+    plt.hist([df['Hora Intervención'], df['Hora Solicitud']], bins=25)
+    plt.show()
+
 
 
     client_code(ConcreteFactory1())
