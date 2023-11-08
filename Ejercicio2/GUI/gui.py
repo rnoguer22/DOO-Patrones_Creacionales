@@ -6,8 +6,11 @@ class PizzeriaApp(QWidget):
     def __init__(self):
         super().__init__()
 
+        self.masas_disponibles = ["Fina", "Gruesa", "Rellena", "Calzone", "Siciliana", "Integral", "Sin gluten"]
+        self.salsas_disponibles = ["Tomate", "Pesto", "Barbacoa", "Picante", "De ajo", "de queso", "Sin salsa"]
         self.ingredientes_disponibles = ["Tomate", "Queso", "Pepperoni", "Champiñones", "Jamón", "Aceitunas", "Cebolla"]
-        self.ingredientes_seleccionados = []
+
+        self.seleccion = []
 
         self.init_ui()
 
@@ -17,14 +20,26 @@ class PizzeriaApp(QWidget):
         label = QLabel("Selecciona tus ingredientes:")
         layout.addWidget(label)
 
-        # Lista desplegable para seleccionar ingredientes
-        combo_box = QComboBox(self)
-        combo_box.addItems(self.ingredientes_disponibles)
-        layout.addWidget(combo_box)
+        # Lista desplegable para seleccinar la masa
+        box_masa = QComboBox(self)
+        box_masa.addItems(self.masas_disponibles)
+        layout.addWidget(box_masa)        
+        
+        # Lista desplegable para seleccinar la salsa
+        box_salsa = QComboBox(self)
+        box_salsa.addItems(self.salsas_disponibles)
+        layout.addWidget(box_salsa)
+
+        # Lista desplegable para seleccionar la masa, salsa e ingredientes
+        box_ingredientes = QComboBox(self)
+        box_ingredientes.addItems(self.ingredientes_disponibles)
+        layout.addWidget(box_ingredientes)
 
         # Botón para agregar ingredientes
-        agregar_button = QPushButton("Agregar Ingrediente", self)
-        agregar_button.clicked.connect(lambda: self.agregar_ingrediente(combo_box.currentText()))
+        agregar_button = QPushButton("Agregar", self)
+        agregar_button.clicked.connect(lambda: self.agregar_ingrediente('Masa {}'.format(box_masa.currentText())))
+        agregar_button.clicked.connect(lambda: self.agregar_ingrediente('Salsa {}'.format(box_salsa.currentText())))
+        agregar_button.clicked.connect(lambda: self.agregar_ingrediente(box_ingredientes.currentText()))
         layout.addWidget(agregar_button)
 
         # Botón para mostrar la orden
@@ -35,6 +50,7 @@ class PizzeriaApp(QWidget):
         # Área de texto para mostrar la orden
         self.text_area = QTextEdit(self)
         self.text_area.setReadOnly(True)
+        self.text_area.setMinimumSize(400, 300) #Hacemos que el area de texto sea un poco mas grande
         layout.addWidget(self.text_area)
 
         self.setLayout(layout)
@@ -42,14 +58,14 @@ class PizzeriaApp(QWidget):
         self.show()
 
     def agregar_ingrediente(self, ingrediente):
-        if ingrediente not in self.ingredientes_seleccionados:
-            self.ingredientes_seleccionados.append(ingrediente)
+        if ingrediente not in self.seleccion:
+            self.seleccion.append(ingrediente)
 
     def mostrar_orden(self):
-        if not self.ingredientes_seleccionados:
+        if not self.seleccion:
             QMessageBox.warning(self, "Advertencia", "Selecciona al menos un ingrediente.")
         else:
-            orden = ", ".join(self.ingredientes_seleccionados)
+            orden = ", ".join(self.seleccion)
             self.text_area.append(f"Tu orden es: {orden}")
 
             #Guardar en un archivo CSV
