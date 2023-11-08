@@ -11,7 +11,7 @@ class Builder(ABC):
 
     @property #Para los getters y los setters
     @abstractmethod
-    def product(self) -> None:
+    def pizza(self) -> None:
         pass
 
     @abstractmethod
@@ -27,7 +27,15 @@ class Builder(ABC):
         pass
 
     @abstractmethod
-    def produce_ingredientes(self) -> None:
+    def produce_ingrediente1(self) -> None:
+        pass    
+    
+    @abstractmethod
+    def produce_ingrediente1(self) -> None:
+        pass   
+    
+    @abstractmethod
+    def produce_ingrediente1(self) -> None:
         pass
 
     @abstractmethod
@@ -36,7 +44,7 @@ class Builder(ABC):
 
     @abstractmethod
     def produce_presentacion(self) -> None:
-        pass   
+        pass
 
     @abstractmethod
     def produce_maridaje(self) -> None:
@@ -44,7 +52,8 @@ class Builder(ABC):
 
     @abstractmethod
     def produce_extras(self) -> None:
-        pass
+        pass    
+    
 
 
 class BuilderPeperoni(Builder):
@@ -62,51 +71,76 @@ class BuilderPeperoni(Builder):
         self.reset()
 
     def reset(self) -> None:
-        self._product = PizzaPeperoni()
+        self._pizza = PizzaPeperoni()
 
     @property
-    def product(self) -> PizzaPeperoni:
-        product = self._product
-        self.reset()
-        return product
+    def pizza(self) -> PizzaPeperoni:
+        """
+        Concrete Builders are supposed to provide their own methods for
+        retrieving results. That's because various types of builders may create
+        entirely different products that don't follow the same interface.
+        Therefore, such methods cannot be declared in the base Builder interface
+        (at least in a statically typed programming language).
 
+        Usually, after returning the end result to the client, a builder
+        instance is expected to be ready to start producing another product.
+        That's why it's a usual practice to call the reset method at the end of
+        the `getProduct` method body. However, this behavior is not mandatory,
+        and you can make your builders wait for an explicit reset call from the
+        client code before disposing of the previous result.
+        """
+        pizza = self._pizza
+        self.reset()
+        return pizza
 
     def produce_masa(self) -> None:
-        self._product.add('Masa Fina')
+        self._pizza.add("Fina")
 
     def produce_salsa(self) -> None:
-        self._product.add('Tomate')
+        self._pizza.add("Tomate")
 
     def produce_queso(self) -> None:
-        self._product.add('Mozzarella')
-
-    def produce_ingredientes(self) -> None:
-        self._product.add('Peperoni')
+        self._pizza.add("Mozarella")
+    
+    def produce_ingrediente1(self) -> None:
+        self._pizza.add("Peperoni")    
+        
+    def produce_ingrediente2(self) -> None:
+        self._pizza.add("Cebolla")    
+    
+    def produce_ingrediente3(self) -> None:
+        self._pizza.add("Aceitunas")
 
     def produce_coccion(self) -> None:
-        self.product.add('Horno')
+        self._pizza.add('Horno')
 
     def produce_presentacion(self) -> None:
-        self.product.add('Caja de cartón') 
+        self._pizza.add('Caja de cartón') 
 
     def produce_maridaje(self) -> None:
-        self.product.add('Cerveza')
+        self._pizza.add('Cerveza')
 
     def produce_extras(self) -> None:
-        self.product.add('Aceitunas')
+        pass
+
 
 class PizzaPeperoni():
+    """
+    It makes sense to use the Builder pattern only when your products are quite
+    complex and require extensive configuration.
+
+    Unlike in other creational patterns, different concrete builders can produce
+    unrelated products. In other words, results of various builders may not
+    always follow the same interface.
+    """
 
     def __init__(self) -> None:
         self.parts = []
-        self.parts.append('a')
 
     def add(self, part: Any) -> None:
         self.parts.append(part)
-        print(self.parts)
 
     def list_parts(self) -> None:
-        print('cucu2')
         print(f"Product parts: {', '.join(self.parts)}", end="")
 
 
@@ -138,39 +172,42 @@ class Director:
     The Director can construct several product variations using the same
     building steps.
     """
-                                                                                                                                        
+
+    def build_pizza(self) -> None:
+        self._builder.produce_masa()
+        self._builder.produce_salsa()
+        self._builder.produce_queso()
+        self._builder.produce_ingrediente1()
+        self._builder.produce_ingrediente2()
+        self._builder.produce_ingrediente3()
+        self._builder.produce_coccion()
+        self._builder.produce_presentacion()
+        self._builder.produce_maridaje()
+        self._builder.produce_extras()
+
     def build_pizza_para_niños(self) -> None:
-        print('cucu1')
-        self.builder.produce_masa()
-        self.builder.produce_salsa()
-        self.builder.produce_queso()
-        self.builder.produce_coccion()
-        print('cucu3')
-
-    def build_pizza_completa(self) -> None:
-        self.builder.produce_masa()
-        self.builder.produce_salsa()
-        self.builder.produce_queso()
-        self.builder.produce_ingredientes()
-        self.builder.produce_coccion()
-        self.builder.produce_presentacion()
-        self.builder.produce_maridaje()
-        self.builder.produce_extras()
-
+        self._builder.produce_masa()
+        self._builder.produce_salsa()
+        self._builder.produce_queso()
+        self._builder.produce_coccion()
 
 if __name__ == "__main__":
+    """
+    The client code creates a builder object, passes it to the director and then
+    initiates the construction process. The end result is retrieved from the
+    builder object.
+    """
 
     director = Director()
     builder = BuilderPeperoni()
     director.builder = builder
 
-    print("Producto Basico: ")
-    director.build_pizza_para_niños()
-    print(builder.product.parts)
-    builder.product.list_parts()
+    print("Standard basic product: ")
+    director.build_pizza()
+    builder.pizza.list_parts()
 
     print("\n")
 
-    print('Pizza Completa:')
-    director.build_pizza_completa()
-    builder.product.list_parts()
+    print("Standard full featured product: ")
+    director.build_pizza_para_niños()
+    builder.pizza.list_parts()
