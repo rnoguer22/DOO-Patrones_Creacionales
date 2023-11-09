@@ -126,12 +126,21 @@ class PizzeriaApp(QWidget):
             #Si no seleccionamos nada, mostramos un mensaje de advertencia
             QMessageBox.warning(self, "Advertencia", "Selecciona al menos un ingrediente.")
         else:
-            orden = ", ".join(self.seleccion)
-            #Mostramos la orden en la interfaz
-            self.text_area.append(f"Tu orden es: {orden}")
+            if self.seleccion[3] == self.seleccion[4]:
+                #Si seleccionamos el mismo ingrediente 2 veces, mostramos un mensaje de advertencia
+                QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[3]))
+            elif self.seleccion[3] == self.seleccion[5]:
+                QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[3]))
+            elif self.seleccion[4] == self.seleccion[5]:
+                QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[4]))
+            else:
+                #Si la orden es correcta, la guardamos en una variable
+                orden = ", ".join(self.seleccion)
+                #Mostramos la orden en la interfaz
+                self.text_area.append(f"Tu orden es: {orden}")
 
-            #Guardamos la orden en un csv
-            self.guardar_en_csv()
+                #Guardamos la orden en un csv
+                self.guardar_en_csv()
 
     def guardar_en_csv(self):
         with open('./orden.csv', 'a', newline='') as csvfile:
