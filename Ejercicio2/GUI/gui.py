@@ -1,6 +1,5 @@
-import sys
 import csv
-from PyQt5.QtWidgets import QApplication, QWidget, QLabel, QVBoxLayout, QHBoxLayout,QComboBox, QPushButton, QMessageBox, QTextEdit
+from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout,QComboBox, QPushButton, QMessageBox, QTextEdit
 
 class PizzeriaApp(QWidget):
     def __init__(self):
@@ -9,9 +8,9 @@ class PizzeriaApp(QWidget):
         self.masas_disponibles = ["Fina", "Gruesa", "Rellena", "Calzone", "Siciliana", "Integral", "Sin gluten"]
         self.salsas_disponibles = ["Pesto", "Tomate", "Barbacoa", "Picante", "De ajo", "de queso", "Sin salsa"]
         self.quesos_disponibles = ["Mozarella", "Parmesano", "Cheddar", "Provolone", "Sin queso"]
-        self.ingredientes_disponibles = ["Pepperoni", "Champiñones", "Jamon", "Aceitunas", "Cebolla", "Tomate natural"]
+        self.ingredientes_disponibles = ["Pepperoni", "Champiñones", "Jamon", "Aceitunas", "Cebolla", "Tomate natural", "Ninguno"]
         self.cocciones_disponibles = ["Horno", "Parrilla", "Frito", "Cocido", "Crudo"]
-        self.presentaciones_disponibles = ["Caja de cartón", "Gourmet"]
+        self.presentaciones_disponibles = ["Caja de carton", "Gourmet"]
         self.maridajes_disponibles = ["Cerveza", "Vino", "Refresco", "Agua", "Jugo", "Ninguno"]
 
         self.seleccion = []
@@ -71,7 +70,12 @@ class PizzeriaApp(QWidget):
         #Lista para agregar el maridaje
         box_maridaje = QComboBox(self)
         box_maridaje.addItems(self.maridajes_disponibles)
-        layout_horizontal2.addWidget(box_maridaje)
+        layout_horizontal2.addWidget(box_maridaje)        
+        
+        #Lista para agregar los extras
+        box_extras = QComboBox(self)
+        box_extras.addItems(self.ingredientes_disponibles) #En nuestro caso los extras son los mismos que los ingredientes
+        layout_horizontal2.addWidget(box_extras)
 
         # Botón para agregar ingredientes
         agregar_button = QPushButton("Agregar", self)
@@ -84,6 +88,7 @@ class PizzeriaApp(QWidget):
         agregar_button.clicked.connect(lambda: self.agregar_ingrediente(box_coccion.currentText()))
         agregar_button.clicked.connect(lambda: self.agregar_ingrediente(box_presentacion.currentText()))
         agregar_button.clicked.connect(lambda: self.agregar_ingrediente(box_maridaje.currentText()))
+        agregar_button.clicked.connect(lambda: self.agregar_ingrediente(box_extras.currentText()))
         layout_horizontal2.addWidget(agregar_button)
 
         # Botón para mostrar la orden
@@ -129,6 +134,6 @@ class PizzeriaApp(QWidget):
             self.guardar_en_csv()
 
     def guardar_en_csv(self):
-        with open('Ejercicio2/orden.csv', 'a', newline='') as csvfile:
+        with open('./orden.csv', 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(self.seleccion)
