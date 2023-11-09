@@ -17,7 +17,7 @@ class LimpiezaDatos(LecturaDatos):
     #Copia el dataframe para no modificar el original
     def copia(self):
         self.df = self.df.copy()
-        self.df.to_csv('Ejercicio1/Datasets/copy_activaciones_samur_2023.csv', sep=';', index=False)
+        self.df.to_csv('copy_activaciones_samur_2023.csv', sep=';', index=False)
 
     def limpieza_nulos(self):
         for column in self.df.columns:
@@ -48,4 +48,11 @@ class LimpiezaDatos(LecturaDatos):
     
     #Guarda el dataframe en un csv
     def guardar(self):
-        self.df.to_csv('Ejercicio1/Datasets/filtrado_activaciones_samur_2023.csv', sep=';', index=False)
+        self.df.to_csv('Datasets/filtrado_activaciones_samur_2023.csv', sep=';', index=False)
+    
+    def calcular_diferencia(self):
+        self.df['Hora Intervención'] = pd.to_datetime(self.df['Hora Intervención'], format='%H:%M:%S')
+        self.df['Hora Solicitud'] = pd.to_datetime(self.df['Hora Solicitud'], format='%H:%M:%S')
+        #Calcula la diferencia entre la hora de solicitud y la hora de intervencion, ya que es lo unico que tiene sentido para una media
+        self.diferencia = self.df['Hora Intervención'] - self.df['Hora Solicitud']
+        return self.diferencia
