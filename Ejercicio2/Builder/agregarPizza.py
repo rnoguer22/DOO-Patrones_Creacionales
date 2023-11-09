@@ -13,6 +13,5 @@ class AgregarPizza():
     def list_parts(self) -> None:
         csv = Csv('./orden.csv')
         csv.guardar_en_csv(self.parts)
-        print(self.parts)
-        print('Guardado en el csv')
+        print('Pedido realizado con exito!')
         print(f"Product parts: {', '.join(self.parts)}", end="")

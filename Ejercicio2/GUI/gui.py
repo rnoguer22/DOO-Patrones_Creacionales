@@ -13,6 +13,7 @@ class PizzeriaApp(QWidget):
         self.maridajes_disponibles = ["Cerveza", "Vino", "Refresco", "Agua", "Jugo", "Ninguno"]
 
         self.seleccion = []
+        self.orden = ""
 
         self.init_gui()
 
@@ -112,7 +113,7 @@ class PizzeriaApp(QWidget):
 
         self.setLayout(layout_vertical)
         self.setWindowTitle("Pizzería App")
-        self.show()
+        return self.orden
 
     #Funcion para agregar los ingredientes (masa, salsa, ingrediente1, ...)
     def agregar_ingrediente(self, ingrediente):
@@ -132,8 +133,10 @@ class PizzeriaApp(QWidget):
                 QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[3]))
             elif self.seleccion[4] == self.seleccion[5]:
                 QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[4]))
+            elif self.seleccion[3] == self.seleccion[4] and self.seleccion[3] == self.seleccion[5]:
+                QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 3 veces.".format(self.seleccion[3]))
             else:
                 #Si la orden es correcta, la guardamos en una variable
-                orden = ", ".join(self.seleccion)
+                self.orden = ", ".join(self.seleccion)
                 #Mostramos la orden en la interfaz
-                self.text_area.append(f"Tu orden es: {orden}")
+                self.text_area.append(f"Tu orden es: {self.orden}")

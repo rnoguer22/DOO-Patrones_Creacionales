@@ -16,12 +16,13 @@ class Lanzador():
         ventana.show()
         app.exec_()   
             
+        print('Procesando su pedido...')
         sleep(2)
 
         director = Director()
         builder = BuilderPizza(ventana.get_seleccion())
         director.builder = builder
 
-        print("Pizza: ")
+        print("Su pedido es:")
         director.build_pizza()
         builder.pizza.list_parts()

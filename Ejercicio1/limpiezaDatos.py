@@ -49,12 +49,3 @@ class LimpiezaDatos(LecturaDatos):
     #Guarda el dataframe en un csv
     def guardar(self):
         self.df.to_csv('Ejercicio1/Datasets/filtrado_activaciones_samur_2023.csv', sep=';', index=False)
-    
-
-
-dataCleaning = LimpiezaDatos('Ejercicio1/Datasets/activaciones_samur_2023.csv')
-dataCleaning.copia()
-dataCleaning.limpieza_nulos()
-dataCleaning.limpieza_duplicados()
-dataCleaning.limpieza_atipicos()
-dataCleaning.guardar()
