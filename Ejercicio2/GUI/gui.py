@@ -18,6 +18,9 @@ class PizzeriaApp(QWidget):
 
         self.init_gui()
 
+    def get_seleccion(self):
+        return self.seleccion
+
     def init_gui(self):
         layout_vertical = QVBoxLayout()
         layout_horizontal1 = QHBoxLayout()
@@ -94,6 +97,11 @@ class PizzeriaApp(QWidget):
         self.text_area.setMinimumSize(400, 300) #Hacemos que el area de texto sea un poco mas grande
         layout_horizontal3.addWidget(self.text_area)
 
+        # Botón para cerrar la aplicación, y poder devolver los datos del pedido
+        close_button = QPushButton("Cerrar", self)
+        close_button.clicked.connect(self.close)
+        layout_horizontal3.addWidget(close_button)
+
         layout_vertical.addLayout(layout_horizontal1)
         layout_vertical.addLayout(layout_horizontal2)
         layout_vertical.addLayout(layout_horizontal3)
@@ -102,26 +110,25 @@ class PizzeriaApp(QWidget):
         self.setWindowTitle("Pizzería App")
         self.show()
 
+    #Funcion para agregar los ingredientes (masa, salsa, ingrediente1, ...)
     def agregar_ingrediente(self, ingrediente):
-        if ingrediente not in self.seleccion:
+        #if ingrediente not in self.seleccion:
             self.seleccion.append(ingrediente)
 
+    #Funcion para mostrar la orden
     def mostrar_orden(self):
         if not self.seleccion:
+            #Si no seleccionamos nada, mostramos un mensaje de advertencia
             QMessageBox.warning(self, "Advertencia", "Selecciona al menos un ingrediente.")
         else:
             orden = ", ".join(self.seleccion)
+            #Mostramos la orden en la interfaz
             self.text_area.append(f"Tu orden es: {orden}")
 
-            #Guardar en un archivo CSV
+            #Guardamos la orden en un csv
             self.guardar_en_csv()
 
     def guardar_en_csv(self):
-        with open('Ejercicio2/GUI/orden.csv', 'a', newline='') as csvfile:
+        with open('Ejercicio2/orden.csv', 'a', newline='') as csvfile:
             writer = csv.writer(csvfile)
             writer.writerow(self.seleccion)
-
-if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ventana = PizzeriaApp()
-    sys.exit(app.exec_())
