@@ -1,4 +1,3 @@
-import csv
 from PyQt5.QtWidgets import QWidget, QLabel, QVBoxLayout, QHBoxLayout,QComboBox, QPushButton, QMessageBox, QTextEdit
 
 class PizzeriaApp(QWidget):
@@ -138,11 +137,3 @@ class PizzeriaApp(QWidget):
                 orden = ", ".join(self.seleccion)
                 #Mostramos la orden en la interfaz
                 self.text_area.append(f"Tu orden es: {orden}")
-
-                #Guardamos la orden en un csv
-                self.guardar_en_csv()
-
-    def guardar_en_csv(self):
-        with open('./orden.csv', 'a', newline='') as csvfile:
-            writer = csv.writer(csvfile)
-            writer.writerow(self.seleccion)

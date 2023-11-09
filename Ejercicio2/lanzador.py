@@ -2,6 +2,7 @@ import sys
 from PyQt5.QtWidgets import QApplication
 from time import sleep
 from Gui.gui import PizzeriaApp
+from Csv.csv import Csv
 from Builder.director import Director
 from Builder.builderPizza import BuilderPizza
 
