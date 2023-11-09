@@ -117,7 +117,6 @@ class PizzeriaApp(QWidget):
 
     #Funcion para agregar los ingredientes (masa, salsa, ingrediente1, ...)
     def agregar_ingrediente(self, ingrediente):
-        #if ingrediente not in self.seleccion:
             self.seleccion.append(ingrediente)
 
     #Funcion para mostrar la orden
@@ -126,15 +125,16 @@ class PizzeriaApp(QWidget):
             #Si no seleccionamos nada, mostramos un mensaje de advertencia
             QMessageBox.warning(self, "Advertencia", "Selecciona al menos un ingrediente.")
         else:
-            if self.seleccion[3] == self.seleccion[4]:
+            if self.seleccion[3] == self.seleccion[4] and self.seleccion[3] == self.seleccion[5]:
+                #Si seleccionamos el mismo ingrediente 3 veces, mostramos un mensaje de advertencia
+                QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 3 veces.".format(self.seleccion[3]))
+            elif self.seleccion[3] == self.seleccion[4]:
                 #Si seleccionamos el mismo ingrediente 2 veces, mostramos un mensaje de advertencia
                 QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[3]))
             elif self.seleccion[3] == self.seleccion[5]:
                 QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[3]))
             elif self.seleccion[4] == self.seleccion[5]:
                 QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 2 veces.".format(self.seleccion[4]))
-            elif self.seleccion[3] == self.seleccion[4] and self.seleccion[3] == self.seleccion[5]:
-                QMessageBox.warning(self, "Advertencia", "Ha seleccionado el ingrediente {} 3 veces.".format(self.seleccion[3]))
             else:
                 #Si la orden es correcta, la guardamos en una variable
                 self.orden = ", ".join(self.seleccion)

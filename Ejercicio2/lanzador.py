@@ -23,6 +23,5 @@ class Lanzador():
         builder = BuilderPizza(ventana.get_seleccion())
         director.builder = builder
 
-        print("Su pedido es:")
         director.build_pizza()
         builder.pizza.list_parts()

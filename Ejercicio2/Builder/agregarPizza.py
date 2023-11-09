@@ -14,4 +14,5 @@ class AgregarPizza():
         csv = Csv('./orden.csv')
         csv.guardar_en_csv(self.parts)
         print('Pedido realizado con exito!')
-        print(f"Product parts: {', '.join(self.parts)}", end="")
+        print("Su pedido es:")
+        print(f"{', '.join(self.parts)}", end="")
