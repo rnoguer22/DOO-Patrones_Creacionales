@@ -11,7 +11,7 @@ from AbstractFactory.concreteFactories import (
                                         ConcreteFactory6)
 class Lanzador:
     def lanzar_limpieza(self):
-        dataCleaning = LimpiezaDatos('Datasets/activaciones_samur_2023.csv')
+        dataCleaning = LimpiezaDatos('Ejercicio1/Datasets/activaciones_samur_2023.csv')
         dataCleaning.limpieza_nulos()
         dataCleaning.limpieza_duplicados()
         dataCleaning.limpieza_atipicos()

@@ -2,7 +2,7 @@ from AbstractFactory.AbstractGraphics.abstractGraphics import AbstractGraphics
 from LimpiezaDatos.limpiezaDatos import LimpiezaDatos
 import matplotlib.pyplot as plt
 
-limpieza = LimpiezaDatos('Datasets/activaciones_samur_2023.csv')
+limpieza = LimpiezaDatos('Ejercicio1/Datasets/activaciones_samur_2023.csv')
 diferencia = limpieza.calcular_diferencia()
 
 class GraficoBarras(AbstractGraphics):

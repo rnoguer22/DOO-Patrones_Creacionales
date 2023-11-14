@@ -48,7 +48,7 @@ class LimpiezaDatos(LecturaDatos):
     
     #Guarda el dataframe en un csv
     def guardar(self):
-        self.df.to_csv('Datasets/filtrado_activaciones_samur_2023.csv', sep=';', index=False)
+        self.df.to_csv('Ejercicio1/Datasets/filtrado_activaciones_samur_2023.csv', sep=';', index=False)
     
     def calcular_diferencia(self):
         self.df['Hora Intervención'] = pd.to_datetime(self.df['Hora Intervención'], format='%H:%M:%S')
